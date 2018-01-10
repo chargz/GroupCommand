@@ -51,9 +51,9 @@ elif inp == "2":
 	inp2 = raw_input("Enter complete path to your file. Details must be in the following order - separated by commas:\nIP Address of machine,SSH username,SSH Password\nEach line in the file must have these 3 values separated by commas.\n")
 	with open(inp2, 'r') as user_file:
 		for line in user_file:
-			ip = inp1.split(",")[0]
-			username = inp1.split(",")[1]
-			password = inp1.split(",")[2]
+			ip = inp2.split(",")[0]
+			username = inp2.split(",")[1]
+			password = inp2.split(",")[2]
 			addClient(ip, username, password)
 
 elif inp == "3":
