@@ -34,33 +34,44 @@ def addClient(host, user, password):
 	client = Client(host, user, password)
 	clientList.append(client)
 
-with open('clientList.txt', 'rb') as readlist:
-    reader = csv.reader(readlist)
-    clientList = list(reader)
+with open('clientList.txt', 'a') as writ:
+		
+	with open('clientList.txt', 'rb') as readlist:
+		clientList=[]
+		for line in readlist:
+			if line:
+				addClient(line.split(",")[0],line.split(",")[1],line.split(",")[2])
+				# reader = csv.reader(readlist)
+				# clientList = list(reader)
 
-inp = raw_input("Enter: \n1 if you want to manually submit the SSH credentials:\n2 if you want to specify a file with credentials:\n3 to run a command on your Client List:\n")
+	inp = raw_input("Enter: \n1 if you want to manually submit the SSH credentials:\n2 if you want to specify a file with credentials:\n3 to run a command on your Client List:\n")
 
-if inp == "1":
-	inp1 = raw_input("Enter details in the following order - separated by commas:\nIP Address of machine,SSH username,SSH Password\n")
-	ip = inp1.split(",")[0]
-	username = inp1.split(",")[1]
-	password = inp1.split(",")[2]
-	addClient(ip, username, password)
+	if inp == "1":
+		inp1 = raw_input("Enter details in the following order - separated by commas:\nIP Address of machine,SSH username,SSH Password\n")
+		ip = inp1.split(",")[0]
+		username = inp1.split(",")[1]
+		password = inp1.split(",")[2]
+		addClient(ip, username, password)
+		writ.write(ip+","+username+","+password)
+		writ.write('\n')
 
-elif inp == "2":
-	inp2 = raw_input("Enter complete path to your file. Details must be in the following order - separated by commas:\nIP Address of machine,SSH username,SSH Password\nEach line in the file must have these 3 values separated by commas.\n")
-	with open(inp2, 'r') as user_file:
-		for line in user_file:
-			ip = inp2.split(",")[0]
-			username = inp2.split(",")[1]
-			password = inp2.split(",")[2]
-			addClient(ip, username, password)
 
-elif inp == "3":
-	inp3 = raw_input("Enter the command to run on your client list:\n")
-	runCommand(inp3)
+	elif inp == "2":
+		inp2 = raw_input("Enter complete path to your file. Details must be in the following order - separated by commas:\nIP Address of machine,SSH username,SSH Password\nEach line in the file must have these 3 values separated by commas.\n")
+		with open(inp2, 'r') as user_file:
+			for line in user_file:
+				ip = inp2.split(",")[0]
+				username = inp2.split(",")[1]
+				password = inp2.split(",")[2]
+				addClient(ip, username, password)
+				writ.write(ip+","+username+","+password)
+				write.write('\n')
 
-with open('clientList.txt', "w") as output:
-    writer = csv.writer(output, lineterminator='\n')
-    for val in clientList:
-        writer.writerow([val])
+	elif inp == "3":
+		inp3 = raw_input("Enter the command to run on your client list:\n")
+		runCommand(inp3)
+
+	# with open('clientList.txt', "a") as output:
+	# 	writer = csv.writer(output, lineterminator='\n')
+	# 	for val in clientList:
+	# 		writer.writerow([val])
